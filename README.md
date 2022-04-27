@@ -27,5 +27,12 @@ follow the setup steps
 
 that's it
 
+# COMMANDS
+$showFiat : Show the price in fiat
+$showNative : Show the price in native
+$setTokenAddr : Set the Token Address
+$setNetwork : Set the network
+$help : Show help message 
+
 # TIPS
 if you find this usefull and want to tip me here's my wallet address : 0x0d004dc793b724490B192002cD76Ec0Cf43AD87C
