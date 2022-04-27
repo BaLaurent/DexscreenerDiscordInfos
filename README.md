@@ -26,3 +26,6 @@ in that CLI type `python3 main.py`
 follow the setup steps
 
 that's it
+
+# TIPS
+if you find this usefull and want to tip me here's my wallet address : 0x0d004dc793b724490B192002cD76Ec0Cf43AD87C
