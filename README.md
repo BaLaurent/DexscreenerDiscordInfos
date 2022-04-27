@@ -29,9 +29,13 @@ that's it
 
 # COMMANDS
 $showFiat : Show the price in fiat
+
 $showNative : Show the price in native
+
 $setTokenAddr : Set the Token Address
+
 $setNetwork : Set the network
+
 $help : Show help message 
 
 # TIPS
