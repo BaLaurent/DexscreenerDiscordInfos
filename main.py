@@ -11,18 +11,26 @@ showFiat = False
 infos = []
 adminRole = "admins"
 startSymbol = "$"
+alertPriceUsd = 0.0
+channelId = ""
+alertTriggered = False
+alertEnd = False
+strTags = ""
 
 async def get_price():
     global TokenAddress
     global network
     global showFiat
     global infos
-
+    global alertPriceUsd
+    global channelId
+    global client
+    
     url = "https://api.dexscreener.io/latest/dex/pairs/"+network+"/"+TokenAddress
     r = requests.get(url)
     json_data = json.loads(r.text)
     infos = json_data["pair"]
-    
+   
     if showFiat:
         return str(infos["priceUsd"])
     else :
@@ -30,12 +38,26 @@ async def get_price():
 
 async def refreshStatus(): 
     global showFiat
+    global alertTriggered
+    global alertEnd
+    global strTags
+
     while True:
         prix = await get_price()
         if showFiat:
             symbol = "$"
         else:
             symbol = infos["quoteToken"]["symbol"]
+        if( alertPriceUsd != 0.0 and float(infos["priceUsd"]) >= alertPriceUsd and not alertTriggered):
+            await client.get_channel(id=channelId).send(strTags+" Price is above the alert price")
+            alertTriggered = True
+            alertEnd = False
+        
+        if( alertPriceUsd != 0.0 and float(infos["priceUsd"]) < alertPriceUsd and alertTriggered and not alertEnd):
+            await client.get_channel(id=channelId).send(strTags+" Price is below the alert price")
+            alertTriggered = False
+            alertEnd = True
+
         await client.change_presence(activity=discord.Game(name=str(prix) + " " + symbol))
         await asyncio.sleep(5)
 
@@ -65,7 +87,10 @@ async def on_message(message):
     global adminRole
     global showFiat
     global startSymbol
-
+    global alertPriceUsd
+    global channelId
+    global strTags
+    
     if message.author == client.user:
         return
     if (adminRole in [y.name.lower() for y in message.author.roles]):
@@ -94,7 +119,22 @@ async def on_message(message):
             if len(splited) >= 2:
                 startSymbol = splited[1]
                 await message.channel.send("Start symbol set to : "+startSymbol)
+
+        if message.content.startswith(startSymbol+'setAlertUsd'):
+            splited = message.content.split(" ")
+            channelId = message.channel.id
+            if len(splited) == 3:
+                alertPriceUsd = float(splited[1])
+                tags = splited[2]
+                strTags = tags
+                await message.channel.send("Alert price set to : "+str(alertPriceUsd)+" this persons will be pinged : "+tags)
+            elif len(splited) == 2:
+                alertPriceUsd = float(splited[1])
+                await message.channel.send("Alert price set to : "+str(alertPriceUsd))
+            else :
+                await message.channel.send("Please enter the alert price and the tags to ping ")
+        
     else :
         await message.channel.send("You need to be '"+adminRole+"' to use this command")
 
-client.run('<YOUR DISCORD TOKEN>')
+client.run('TOKEN')
