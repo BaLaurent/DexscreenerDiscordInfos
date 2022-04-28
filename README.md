@@ -38,5 +38,7 @@ $setNetwork : Set the network
 
 $help : Show help message 
 
+$setAlertUsd : set the price at which you'll receive an alert
+
 # TIPS
 if you find this usefull and want to tip me here's my wallet address : 0x0d004dc793b724490B192002cD76Ec0Cf43AD87C
