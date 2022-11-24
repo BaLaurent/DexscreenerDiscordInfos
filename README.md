@@ -42,3 +42,5 @@ $setAlertUsd : set the price at which you'll receive an alert
 
 # TIPS
 if you find this usefull and want to tip me here's my wallet address : 0x0d004dc793b724490B192002cD76Ec0Cf43AD87C
+or 
+<a href="https://www.buymeacoffee.com/octopusman388"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=octopusman388&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
